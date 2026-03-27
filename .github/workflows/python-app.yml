@@ -32,6 +32,7 @@ jobs:
           SUPABASE_URL:  ${{secrets.SUPABSE_URL}}
           SUPABASE_KEY:  ${{secrets.SUPABSE_KEY}}
         run: |
+          python debug.py
           python -c "from main import print_spec; print_spec()" > openapi_spec.json
           
       - name: Build ReDoc HTML
