@@ -36,7 +36,7 @@ jobs:
             npm install -g redoc-cli
             redoc-cli bundle openapi_spec.json
             mkdir pages
-            mv redoc-static.html data/my_doc.html
+            mv redoc-static.html pages/my_doc.html
       - uses: actions/upload-artifact@v6
         with:
           name: fastapi_doc
