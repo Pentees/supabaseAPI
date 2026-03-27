@@ -1,8 +1,8 @@
 name: RunAPI
 
 env: 
-  URL:  ${{secrets.SUPABSE_URL}}
-  KEY:  ${{secrets.SUPABSE_KEY}}
+  URL:  ${{ secrets.SUPABASE_URL }}
+  KEY:  ${{secrets.SUPABASE_KEY}}
   
 on:
   push:
