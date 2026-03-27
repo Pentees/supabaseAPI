@@ -26,7 +26,14 @@ jobs:
       - name: Build OpenAPI spec
         run: |
           python -c "from main import print_spec; print_spec()" > openapi_spec.json
-
+          
+      - name: Build ReDoc HTML
+        run: |
+          npm install redoc-cli
+          redoc-cli bundle openapi_spec.json
+          mkdir pages
+          mv redoc-static.html pages/my_doc.html
+      
   deploy:
     needs: build
     runs-on: ubuntu-latest
