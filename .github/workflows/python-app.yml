@@ -18,6 +18,11 @@ jobs:
         with:
           name:  github-pages
           path: data
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          name: 'github-pages'
+          path: 'dist'
           
   deploy:
     needs: build
