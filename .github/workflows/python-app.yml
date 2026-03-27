@@ -20,6 +20,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+      - name: Install Depencies about Python
+        run: pip install -r requirements.txt
           
       - name: Build OpenAPI spec
         run: |
