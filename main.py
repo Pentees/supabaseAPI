@@ -21,13 +21,9 @@ key: str =  os.environ.get("KEY")
 
 supabase = create_client(url, key)
 
-class Item(BaseModel):
-    name: str
-    value: int
-
 @app.get("/")
-async def read_root():
-    return {"message_System": "System is Active Now!!"}
+def root():
+    return {"message": "Hello World"}
 
 @app.get("/Table/{table_name}")
 async def get_apiinfo(table_name : str):
