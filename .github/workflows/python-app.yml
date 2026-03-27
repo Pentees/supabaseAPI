@@ -1,7 +1,4 @@
 name: RunAPI
-env:
-  SUPABASE_URL:  ${{ secrets.SUPABSE_URL }}
-  SUPABASE_KEY:  ${{ secrets.SUPABSE_KEY }}
   
 on:
   push:
@@ -31,6 +28,9 @@ jobs:
           pip install -r requirement.txt
            
       - name: Build OpenAPI spec
+        env: 
+          SUPABASE_URL:  ${{secrets.SUPABSE_URL}}
+          SUPABASE_KEY:  ${{secrets.SUPABSE_KEY}}
         run: |
           python -c "from main import print_spec; print_spec()" > openapi_spec.json
           
