@@ -34,8 +34,28 @@ jobs:
         run: |
           mkdir data
           echo "<h1>Hello GitHub Pages!</h1>" > data/index.html
-      - name: Build
-        run: python main.py
+      - name: Build OpenAPI spec
+        run: |
+          python -c "from main import print_spec; print_spec()" > openapi_spec.json
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Build ReDoc HTML
+        run: |
+          npm install -g redoc-cli
+          redoc-cli bundle openapi_spec.json
+	  mkdir pages
+          mv redoc-static.html pages/my_doc.html
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fastapi_doc
+          path: pages
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: pages
       
   deploy:
     needs: build
