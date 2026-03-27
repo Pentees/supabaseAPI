@@ -9,10 +9,67 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v6
+      - name: Cache poetry cache
+        id: poetry-cache
+        uses: actions/cache@v5
+        with:
+          path: /home/runner/.local
+          key: ${{ runner.os }}-python${{ env.PYTHON_VERSION }}-poetry${{ env.POETRY_VERSION }}
+
+      - name: Set a path
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+        if: steps.poetry-cache.outputs.cache-hit == 'true'
+
+      - name: Cache packages
+        id: packages-cache
+        uses: actions/cache@v5
+        with:
+          path: /home/runner/.cache/pypoetry
+          key: ${{ runner.os }}-${{ github.job }}-packages-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ github.job }}-packages-
+            
+      
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+          architecture: 'x64'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 - --version ${{ env.POETRY_VERSION }}
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+        if: steps.poetry-cache.outputs.cache-hit != 'true'
+
+      - name: Resolve Dependencies
+        run: |
+          poetry install
+        if: steps.packages-cache.outputs.cache-hit != 'true'
+
+
+    - name: Build OpenAPI spec
+        run: |
+          python -c "from main import print_spec; print_spec()" > openapi_spec.json
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Build ReDoc HTML
+        run: |
+          npm install -g redoc-cli
+          redoc-cli bundle openapi_spec.json
+	  mkdir pages
+          mv redoc-static.html pages/my_doc.html
       - run: |
           mkdir data
           echo "<h1>Hello GitHub Pages!</h1>" > data/index.html
-      - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
       - uses: actions/upload-artifact@v4
         with:
@@ -23,6 +80,9 @@ jobs:
         with:
           name: 'github-pages'
           path: './'
+      - name: Run Python
+        run: python main.py
+      
           
   deploy:
     needs: build
