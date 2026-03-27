@@ -1,7 +1,7 @@
 name: RunAPI
 
 env: 
-  URL:  ${{ secrets.SUPABASE_URL }}
+  URL:  ${{secrets.SUPABASE_URL }}
   KEY:  ${{secrets.SUPABASE_KEY}}
   
 on:
@@ -35,7 +35,7 @@ jobs:
         run: |
             npm install -g redoc-cli
             redoc-cli bundle openapi_spec.json
-            mkdir data
+            mkdir pages
             mv redoc-static.html data/my_doc.html
       - uses: actions/upload-artifact@v6
         with:
@@ -43,7 +43,7 @@ jobs:
           path: pages
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: data
+          path: pages
       
   deploy:
     needs: build
