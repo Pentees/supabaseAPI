@@ -49,11 +49,11 @@ jobs:
             redoc-cli bundle openapi_spec.json
             mkdir pages
             mv redoc-static.html pages/my_doc.html
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v6
         with:
           name: fastapi_doc
           path: pages
-      - uses: actions/upload-pages-artifact@v1
+      - uses: actions/upload-pages-artifact@v6
         with:
           path: pages
       
