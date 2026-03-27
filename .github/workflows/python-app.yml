@@ -21,7 +21,9 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - name: Install Depencies about Python
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
           
       - name: Build OpenAPI spec
         run: |
