@@ -31,17 +31,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirement.txt
            
-      - name: Build OpenAPI spec
-        run: |
-          python debug.py
-          python -c "from main import print_spec; print_spec()" > openapi_spec.json
-          
-      - name: Build ReDoc HTML
-        run: |
-          npm install redoc-cli
-          redoc-cli bundle openapi_spec.json
-          mkdir pages
-          mv redoc-static.html pages/my_doc.html
+      - name: Build
+        run: npm run build
       
   deploy:
     needs: build
