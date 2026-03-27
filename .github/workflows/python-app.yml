@@ -45,10 +45,10 @@ jobs:
 
       - name: Build ReDoc HTML
         run: |
-          npm install -g redoc-cli
-          redoc-cli bundle openapi_spec.json
-	  mkdir pages
-          mv redoc-static.html pages/my_doc.html
+            npm install -g redoc-cli
+            redoc-cli bundle openapi_spec.json
+            mkdir pages
+            mv redoc-static.html pages/my_doc.html
       - uses: actions/upload-artifact@v3
         with:
           name: fastapi_doc
