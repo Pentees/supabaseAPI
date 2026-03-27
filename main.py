@@ -18,6 +18,7 @@ app.add_middleware(
 
 url: str = os.getenv("SUPABASE_URL")
 key: str = os.getenv("SUPABASE_KEY")
+print(url, key)
 supabase = create_client(url, key)
 
 class Item(BaseModel):
