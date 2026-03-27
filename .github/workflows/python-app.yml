@@ -53,7 +53,7 @@ jobs:
         with:
           name: fastapi_doc
           path: pages
-      - uses: actions/upload-pages-artifact@v6
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: pages
       
