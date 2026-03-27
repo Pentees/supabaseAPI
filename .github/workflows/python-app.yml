@@ -24,8 +24,6 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - name: Write down all Dependencies
-        run: pip freeze > requirements.txt
       - name: Install Depencies about Python
         run: |
           python -m pip install --upgrade pip
