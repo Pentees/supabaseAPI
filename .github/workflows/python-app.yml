@@ -1,8 +1,8 @@
-name: CI
+name: RunAPI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -10,67 +10,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Setup Python
+      - name: Install Python
         uses: actions/setup-python@v6
-        with:
+        with: 
           python-version: '3.14'
-          architecture: 'x64'
+          architecture: 'x64'  
+      - name: Install Node.js
+        uses: snok/install-poetry@v1
+        with:
+          node-version: '20'
+          cache: 'npm'
       - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Install poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 - --version ${{ env.POETRY_VERSION }}
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-        if: steps.poetry-cache.outputs.cache-hit != 'true'
-
-      - name: Resolve Dependencies
-        run: |
-          poetry install
-        if: steps.packages-cache.outputs.cache-hit != 'true'
-
-
-    - name: Build OpenAPI spec
+        run: npm install
+      
+      - name: Build OpenAPI spec
         run: |
           python -c "from main import print_spec; print_spec()" > openapi_spec.json
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-
-      - name: Build ReDoc HTML
-        run: |
-          npm install -g redoc-cli
-          redoc-cli bundle openapi_spec.json
-	  mkdir pages
-          mv redoc-static.html pages/my_doc.html
-      - run: |
-          mkdir data
-          echo "<h1>Hello GitHub Pages!</h1>" > data/index.html
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-artifact@v4
-        with:
-          name:  github-pages
-          path: data
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          name: 'github-pages'
-          path: './'
-      - name: Run Python
-        run: python main.py
-      
-          
   deploy:
     needs: build
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
     permissions:
       pages: write
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{steps.deployment.outputs.page_url}}
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
