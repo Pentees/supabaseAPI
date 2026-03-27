@@ -16,8 +16,8 @@ app.add_middleware(
     allow_headers=["*"]       # 追記により追加
 )
 
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_KEY")
+url: str =  ${{secrets.SUPABSE_URL}}
+key: str =  ${{secrets.SUPABSE_URL}}
 print(url, key)
 supabase = create_client(url, key)
 
