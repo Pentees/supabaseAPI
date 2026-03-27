@@ -29,7 +29,7 @@ jobs:
           pip install -r requirement.txt
       - run: |
           mkdir pages
-          echo "<h1>Hello GitHub Pages!</h1>" > data/index.html
+          echo "<h1>Hello GitHub Pages!</h1>" > pages/index.html
       - name: Build OpenAPI spec
         run: |
           python -c "from main import print_spec; print_spec()" > openapi_spec.json
