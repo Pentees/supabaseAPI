@@ -18,7 +18,7 @@ jobs:
         with:
           name: my_site
           path: data
-      - uses: actions/upload-pages-artifact@v1
+      - uses: actions/upload-pages-artifact@v2
         with:
           path: data
           
