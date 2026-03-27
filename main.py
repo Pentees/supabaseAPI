@@ -40,3 +40,6 @@ async def get_titles():
     reffered_table_column = "Articles(id, title)"
     response = supabase.table(table_name).select("*",reffered_table_column).eq("Flag_Hidden", "false").execute()
     return response.data
+
+def print_spec() -> None:
+    print(app.openapi())
