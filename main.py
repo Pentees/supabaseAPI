@@ -16,8 +16,8 @@ app.add_middleware(
     allow_headers=["*"]       # 追記により追加
 )
 
-url: str = os.getenv("SUPABASE_URL")
-key: str = os.getenv("SUPABASE_KEY")
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_KEY")
 print(url, key)
 supabase = create_client(url, key)
 
