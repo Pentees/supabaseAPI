@@ -18,9 +18,6 @@ jobs:
         with:
           name: my_site
           path: data
-      - uses: actions/upload-pages-artifact@v2
-        with:
-          path: data
           
   deploy:
     needs: build
