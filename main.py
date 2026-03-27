@@ -1,14 +1,10 @@
 
 import os
-from dotenv import load_dotenv
 
 from fastapi import FastAPI
 from pydantic import BaseModel
 from supabase import create_client, Client
 from fastapi.middleware.cors import CORSMiddleware
-
-# .envファイルのパスを指定して読み込む
-load_dotenv()
 
 app = FastAPI()
 
